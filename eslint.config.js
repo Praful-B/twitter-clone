@@ -21,6 +21,11 @@ export default defineConfig([
         ecmaFeatures: { jsx: true },
         sourceType: 'module',
       },
+      env: {
+        browser: true,
+        es2021: true,
+        node: true // <-- Add this line
+      },
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
