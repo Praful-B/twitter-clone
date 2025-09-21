@@ -1,11 +1,9 @@
-import './App.css'
+import loginPage from "./pages/login.jsx";
 
 function App() {
   return (
-    <p>
-        hello, world!
-    </p>
+      < loginPage />
   )
 }
 
-export default App
+export default App;
