@@ -1,8 +1,8 @@
-import loginPage from "./pages/login.jsx";
+import LoginPage from "./pages/Login.jsx";
 
 function App() {
   return (
-      < loginPage />
+      < LoginPage />
   )
 }
 

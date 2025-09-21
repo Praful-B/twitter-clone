@@ -38,8 +38,8 @@ router.post('/login',async (req, res) => {
         if (!username || !password) {
             return res.status(401).send('all fields are required');
         }
-        const user = User.findOne({username});
-        if (!user || bcrypt.compare(password, user.password)) {
+        const user = await User.findOne({username});
+        if (!user || await !(bcrypt.compare(password, user.password))) {
             return res.status(401).send('credentials are incorrect');
         }
         const token = jwt.sign(
@@ -64,4 +64,4 @@ router.post('/delete', auth,async (req, res) => {
 
 })
 
-module.exports = router;
+export default router;
