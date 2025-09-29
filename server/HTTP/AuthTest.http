@@ -1,0 +1,220 @@
+### ============================================
+### REGISTRATION TESTS
+### ============================================
+
+### Test 1: Successful Registration
+POST http://localhost:5500/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser1",
+  "email": "testuser1@example.com",
+  "password": "password123"
+}
+
+### Test 2: Registration - Missing Username
+POST http://localhost:5500/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "testuser2@example.com",
+  "password": "password123"
+}
+
+### Test 3: Registration - Missing Email
+POST http://localhost:5500/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser3",
+  "password": "password123"
+}
+
+### Test 4: Registration - Missing Password
+POST http://localhost:5500/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser4",
+  "email": "testuser4@example.com"
+}
+
+### Test 5: Registration - Duplicate Username (run after Test 1)
+POST http://localhost:5500/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser1",
+  "email": "different@example.com",
+  "password": "password123"
+}
+
+### Test 6: Registration - Duplicate Email (run after Test 1)
+POST http://localhost:5500/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "differentuser",
+  "email": "testuser1@example.com",
+  "password": "password123"
+}
+
+### Test 7: Registration - Empty Fields
+POST http://localhost:5500/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "",
+  "email": "",
+  "password": ""
+}
+
+### ============================================
+### LOGIN TESTS
+### ============================================
+
+### Test 8: Successful Login (use credentials from Test 1)
+POST http://localhost:5500/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser1",
+  "password": "password123"
+}
+
+### Test 9: Login - Wrong Password
+POST http://localhost:5500/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser1",
+  "password": "wrongpassword"
+}
+
+### Test 10: Login - Non-existent User
+POST http://localhost:5500/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "nonexistentuser",
+  "password": "password123"
+}
+
+### Test 11: Login - Missing Username
+POST http://localhost:5500/api/auth/login
+Content-Type: application/json
+
+{
+  "password": "password123"
+}
+
+### Test 12: Login - Missing Password
+POST http://localhost:5500/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser1"
+}
+
+### Test 13: Login - Empty Credentials
+POST http://localhost:5500/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "",
+  "password": ""
+}
+
+### ============================================
+### AUTHENTICATED ROUTES (requires token from login)
+### ============================================
+
+### Test 14: Edit Profile - With Valid Token
+# First login to get a token, then replace YOUR_TOKEN_HERE with the actual token
+POST http://localhost:5500/api/auth/edit
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "newEmail": "newemail@example.com"
+}
+
+### Test 15: Edit Profile - Without Token
+POST http://localhost:5500/api/auth/edit
+Content-Type: application/json
+
+{
+  "newEmail": "newemail@example.com"
+}
+
+### Test 16: Edit Profile - Invalid Token
+POST http://localhost:5500/api/auth/edit
+Content-Type: application/json
+Authorization: Bearer invalid.token.here
+
+{
+  "newEmail": "newemail@example.com"
+}
+
+### Test 17: Delete Account - With Valid Token
+POST http://localhost:5500/api/auth/delete
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Test 18: Delete Account - Without Token
+POST http://localhost:5500/api/auth/delete
+Content-Type: application/json
+
+### ============================================
+### EDGE CASES
+### ============================================
+
+### Test 19: Registration - Very Long Username
+POST http://localhost:5500/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "verylongusernamethatexceedsnormallimitsandmightcauseissues1234567890",
+  "email": "longuser@example.com",
+  "password": "password123"
+}
+
+### Test 20: Registration - Special Characters in Username
+POST http://localhost:5500/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "test@user#123",
+  "email": "specialchar@example.com",
+  "password": "password123"
+}
+
+### Test 21: Registration - SQL Injection Attempt
+POST http://localhost:5500/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "admin' OR '1'='1",
+  "email": "injection@example.com",
+  "password": "password123"
+}
+
+### Test 22: Registration - Invalid Email Format
+POST http://localhost:5500/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser22",
+  "email": "not-an-email",
+  "password": "password123"
+}
+
+### Test 23: Registration - Weak Password
+POST http://localhost:5500/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser23",
+  "email": "testuser23@example.com",
+  "password": "123"
+}

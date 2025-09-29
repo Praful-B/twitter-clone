@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 function App() {
     return (
         <Routes>
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/auth" element={<LoginPage />} />
             <Route path="/home" element={<FeedPage />} />
         </Routes>
     )
