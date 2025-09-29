@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import auth from '../middleware/auth'
+import auth from '../middleware/auth.js'
 import express from 'express'
-import User from '../models/User'
+import User from '../models/User.js'
 
 const router = express.Router();
 
-router.post('/register',async (req, res) => {
+router.post('/register', async (req, res) => {
     const {username, password, email} = req.body;
     if(!username || !password || !email) {
         return res.status(401).send('all fields are required');
@@ -33,14 +33,14 @@ router.post('/register',async (req, res) => {
     }
 })
 
-router.post('/login',async (req, res) => {
+router.post('/login', async (req, res) => {
     try {
         const {username, password} = req.body;
         if (!username || !password) {
             return res.status(401).send('all fields are required');
         }
         const user = await User.findOne({username});
-        if (!user || !(await bcrypt.compare(password, user.password))) {  // ✅ Correct
+        if (!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(401).send('credentials are incorrect');
         }
         const token = jwt.sign(
@@ -58,10 +58,12 @@ router.post('/login',async (req, res) => {
         return res.status(500).send('Something went wrong');
     }
 });
-router.post('/edit', auth,async (req, res) => {
+
+router.post('/edit', auth, async (req, res) => {
 
 })
-router.post('/delete', auth,async (req, res) => {
+
+router.post('/delete', auth, async (req, res) => {
 
 })
 

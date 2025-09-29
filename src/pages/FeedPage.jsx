@@ -1,7 +1,7 @@
-export default function feedPage(){
+export default function FeedPage(){
     return (
         <>
-
+            <h1>FeedPage</h1>
         </>
     )
 }
