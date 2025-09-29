@@ -27,8 +27,9 @@ router.post('/register',async (req, res) => {
             password: hashedPassword
         })
         await user.save()
+        res.status(200).send('success')
     } catch (error) {
-        return res.status(500).JSON({error : "Error registering a new user"});
+        return res.status(500).json({error : "Error registering a new user"});
     }
 })
 
@@ -39,7 +40,7 @@ router.post('/login',async (req, res) => {
             return res.status(401).send('all fields are required');
         }
         const user = await User.findOne({username});
-        if (!user || await !(bcrypt.compare(password, user.password))) {
+        if (!user || !(await bcrypt.compare(password, user.password))) {  // ✅ Correct
             return res.status(401).send('credentials are incorrect');
         }
         const token = jwt.sign(
